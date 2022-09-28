@@ -1,4 +1,6 @@
-import { initAuth0 } from '@auth0/nextjs-auth0';
+import { initAuth0 } from '@auth0/nextjs-auth0'
+import { ManagementClient } from 'auth0'
+import { getAccessToken } from "@auth0/nextjs-auth0"
 
 export default initAuth0({
     baseURL: process.env.AUTH0_BASE_URL,
@@ -8,7 +10,17 @@ export default initAuth0({
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
     authorizationParams: {
         response_type: 'code',
-        audience: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/`,
+        //audience: `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/`,
         scope: process.env.AUTH0_SCOPE
     }
-});
+})
+
+export async function currentUserManagementClient(req: any, res: any){
+    const { accessToken } = await getAccessToken(req, res)
+
+    return new ManagementClient({
+                token: accessToken,
+                domain: process.env.AUTH0_ISSUER_BASE_URL.replace('https://', ''),
+                scope: process.env.AUTH0_SCOPE})
+}
+

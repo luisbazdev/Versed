@@ -7,6 +7,8 @@ const Home: NextPage = () => {
 
   const { user, error, isLoading } = useUser();
 
+  //console.log(user)
+
   axios.get('/api/profile', {
     withCredentials: true
   })
