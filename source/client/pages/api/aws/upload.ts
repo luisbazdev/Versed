@@ -1,4 +1,4 @@
-import s3 from "../../../aws/index"
+import s3 from "../../../config/aws"
 import { v4 as uuidv4 } from "uuid"
 
 export default async function handler(req: any, res: any){
