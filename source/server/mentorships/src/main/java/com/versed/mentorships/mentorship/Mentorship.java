@@ -12,8 +12,8 @@ public class Mentorship {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Integer mentorId;
-    private Integer studentId;
+    private String mentorId;
+    private String studentId;
     private Integer serviceId;
     private Date expiresAt;
     private Date lastSession;
@@ -22,9 +22,23 @@ public class Mentorship {
 
     public Mentorship(){}
     public Mentorship(
+        String mentorId,
+        String studentId,
+        Integer serviceId, 
+        Date expiresAt, 
+        Date createdAt, 
+        boolean disabled) {
+        this.mentorId = mentorId;
+        this.studentId = studentId;
+        this.serviceId = serviceId;
+        this.expiresAt = expiresAt;
+        this.createdAt = createdAt;
+        this.disabled = disabled;
+    }
+    public Mentorship(
         Integer id, 
-        Integer mentorId, 
-        Integer studentId, 
+        String mentorId,
+        String studentId,
         Integer serviceId, 
         Date expiresAt, 
         Date lastSession, 
@@ -49,19 +63,19 @@ public class Mentorship {
         this.id = id;
     }
 
-    public Integer getMentorId() {
+    public String getMentorId() {
         return this.mentorId;
     }
 
-    public void setMentorId(Integer mentorId) {
+    public void setMentorId(String mentorId) {
         this.mentorId = mentorId;
     }
 
-    public Integer getStudentId() {
+    public String getStudentId() {
         return this.studentId;
     }
 
-    public void setStudentId(Integer studentId) {
+    public void setStudentId(String studentId) {
         this.studentId = studentId;
     }
 

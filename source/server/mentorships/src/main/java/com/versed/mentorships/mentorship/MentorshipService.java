@@ -55,13 +55,13 @@ public class MentorshipService {
         return hm;
     }
 
-    public Map<String, Object> insert(Mentorship body){
+    public Map<String, Object> insert(Mentorship body, Principal principal){
         HashMap<String, Object> hm = new HashMap<String, Object>();
 
         String userId = principal.getName();
 
-        Mentorship mentorship = new Mentorship(body);
-        mentorship.setId(userId);
+        Mentorship mentorship = body;
+        mentorship.setMentorId(userId);
 
         hm.put("message", "Mentorship successfully created");
         hm.put("mentorship", this.repository.save(mentorship));
