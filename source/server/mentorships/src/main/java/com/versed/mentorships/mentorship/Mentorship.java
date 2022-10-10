@@ -15,6 +15,7 @@ public class Mentorship {
     private String mentorId;
     private String studentId;
     private Integer serviceId;
+    private Integer price;
     private Date expiresAt;
     private Date lastSession;
     private Date createdAt;
@@ -24,13 +25,15 @@ public class Mentorship {
     public Mentorship(
         String mentorId,
         String studentId,
-        Integer serviceId, 
+        Integer serviceId,
+        Integer price, 
         Date expiresAt, 
         Date createdAt, 
         boolean disabled) {
         this.mentorId = mentorId;
         this.studentId = studentId;
         this.serviceId = serviceId;
+        this.price = price;
         this.expiresAt = expiresAt;
         this.createdAt = createdAt;
         this.disabled = disabled;
@@ -39,7 +42,8 @@ public class Mentorship {
         Integer id, 
         String mentorId,
         String studentId,
-        Integer serviceId, 
+        Integer serviceId,
+        Integer price, 
         Date expiresAt, 
         Date lastSession, 
         Date createdAt, 
@@ -48,6 +52,7 @@ public class Mentorship {
         this.mentorId = mentorId;
         this.studentId = studentId;
         this.serviceId = serviceId;
+        this.price = price;
         this.expiresAt = expiresAt;
         this.lastSession = lastSession;
         this.createdAt = createdAt;
@@ -85,6 +90,14 @@ public class Mentorship {
 
     public void setServiceId(Integer serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public Integer getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public Date getExpiresAt() {

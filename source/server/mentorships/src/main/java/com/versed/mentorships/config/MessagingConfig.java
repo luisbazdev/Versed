@@ -63,6 +63,7 @@ public class MessagingConfig {
             body.getMentorId(), 
             body.getStudentId(), 
             body.getServiceId(), 
+            body.getPrice(), 
             new Date(), 
             new Date(), 
             false
