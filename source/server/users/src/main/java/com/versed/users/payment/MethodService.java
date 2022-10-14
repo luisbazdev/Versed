@@ -29,7 +29,9 @@ public class MethodService {
         Optional<User> user = this.userRepository.findByUserId(id);
 
         if(user.isPresent()){
-        	List<Method> methods = this.methodRepository.findByUserId(id);
+            Integer userId = user.get().getId();
+
+        	List<Method> methods = this.methodRepository.findByUserId(userId);
 
         	hm.put("user_id", id);
         	hm.put("methods", methods);
@@ -40,15 +42,15 @@ public class MethodService {
 
         hm.put("user_id", id);
         hm.put("message", "User not found");
-        hm.put("success", true);
+        hm.put("success", false);
 
         return hm;
     }
 
-    public Map<String, Object> insert(Integer id, Method method){
+    public Map<String, Object> insert(String id, Method method){
         HashMap<String, Object> hm = new HashMap<String, Object>();
 
-        Optional<User> user = this.userRepository.findById(id);
+        Optional<User> user = this.userRepository.findByUserId(id);
 
         if(user.isPresent()){
         	method.setUser(user.get());

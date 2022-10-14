@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api/users")
-//@CrossOrigin(origins = {"https://versed-test.vercel.app"})
+@CrossOrigin()
 public class MethodController {
     private final MethodService methodService;
 
@@ -28,7 +28,7 @@ public class MethodController {
     }
 
     @PostMapping(value = "{id}/methods")
-    public Map<String, Object> insert(@PathVariable Integer id, @RequestBody Method method){
+    public Map<String, Object> insert(@PathVariable String id, @RequestBody Method method){
         return this.methodService.insert(id, method);
     }
 }

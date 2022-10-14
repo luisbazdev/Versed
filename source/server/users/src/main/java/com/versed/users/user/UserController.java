@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api/users")
-//@CrossOrigin(origins = {"https://versed-test.vercel.app"})
+@CrossOrigin()
 public class UserController {
     private final UserService userService;
 
