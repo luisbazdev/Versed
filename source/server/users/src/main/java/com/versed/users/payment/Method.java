@@ -7,12 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.versed.users.user.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "gateway" }) })
 public class Method {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
