@@ -1,80 +1,44 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
 import axios from "axios"
 
 import { getSession } from "@auth0/nextjs-auth0"
-import { ManagementClient } from 'auth0'
-import { currentUserManagementClient } from "../../../utils/auth0"
 
-export default async function handler(req: any, res: any){
+export default async function handler(req: NextApiRequest, res: NextApiResponse){
+    let session = getSession(req,res)
 
-    const session = await getSession(req,res)
+    let accessToken = session?.accessToken
 
-    const id = session?.user.sub
+    let body = {
+        name: req.body.name,
+        description: req.body.description,
+        location: req.body.location,
+        picture: session?.user.picture
+    }
+
+    let config = { headers: { 'Authorization': 'Bearer ' + accessToken } }
 
     switch(req.method){
-
         case "GET": {
             try {
-                const currentUser = await currentUserManagementClient(req, res)
-
-                const user = await currentUser.getUser({id})
-        
-                res.json(user)
-            } catch(error) {
-                res.json({error: error})
+                axios.get(`${process.env.VERSED_USERS_API_URL}/profile/me`, config)  
+                .then((response) => res.status(200).json({data: response.data}))
+            } catch (error: any) {
+                res.status(error.response.status).send(error.response.data)
             }
-
             break
         }
 
-        case "PUT": {
+        case "POST": {
             try {
-                const currentUser = await currentUserManagementClient(req, res)
-
-                const params = req.body
-
-                await currentUser.updateUserMetadata({id}, params)
-            } catch(error){
-                res.json({error: error})
+                axios.post(`${process.env.VERSED_USERS_API_URL}/profile`, body, config)
+                .then((response) => res.status(200).json({data: response.data}))
+            } catch(error: any) {
+				res.status(error.response.status).send(error.response.data)
             }
 
             break
         }
 
-        case "PATCH": {
-            try {
-                // get the file from request body
-                const { file } = req.body
-
-                // call /api/aws/upload and get signed url
-                const { data } = await axios.post("/api/aws/upload", {
-                    type: file.type
-                })
-
-                const url = data.url
-
-                // hit the signed url
-                const { data: newData } = await axios.put(url, file, {
-                    headers: {
-                        "Content-Type": file.type,
-                        "Access-Control-Allow-Origin": "*"
-                    }
-                })
-
-                const currentUser = await currentUserManagementClient(req, res)
-
-                await currentUser.updateUserMetadata({id}, { pictureUrl: newData.url})
-
-                res.json({pictureUrl: newData})
-
-
-            } catch(error){
-                res.json({error})
-            }
-        }
-
-        default: {
-            res.json({message: "Method not allowed"})
-            break
-        }
+        default: res.status(500).send("Method not allowed")
     }
 }
