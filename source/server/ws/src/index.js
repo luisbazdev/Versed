@@ -16,6 +16,14 @@ const io = socket(server, {
 })
 
 io.on("connection", (socket) => {
+    socket.on("start session", (session) => {
+        socket.to(session.studentId).emit("start session", session)
+    })
+
+    socket.on("end session", (session) => {
+        socket.to(session.studentId).emit("end session", session)
+    })
+
     socket.on("join mentoring", (id) => {
         socket.join(id)
     })
@@ -29,7 +37,6 @@ io.on("connection", (socket) => {
     })
 
     socket.on("call", (offer, room) => {
-        //socket.broadcast.emit("call", offer)
         socket.to(room).emit("call", offer)
     })
 
