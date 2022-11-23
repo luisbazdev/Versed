@@ -1,4 +1,4 @@
-package com.versed.security;
+package com.versed.sessions.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.OAuth2Error;

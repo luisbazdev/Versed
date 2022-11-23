@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.versed.mentorships.service.Service;
+
 @RestController
 @RequestMapping("/api/mentorships")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:1240"}, allowCredentials = "true")
 public class MentorshipController {
     private final MentorshipService service;
 
@@ -26,7 +28,7 @@ public class MentorshipController {
     }
 
     @GetMapping(value = "/me")
-    public List<Mentorship> find(Principal principal){
+    public Map<String, Object> find(Principal principal){
         return this.service.find(principal);
     }
 
@@ -36,8 +38,8 @@ public class MentorshipController {
     }
 
     @PostMapping()
-    public Map<String, Object> insert(@RequestBody Mentorship mentorship, Principal principal){
-        return this.service.insert(mentorship, principal);
+    public Map<String, Object> insert(@RequestBody Service body){
+        return this.service.insert(body);
     }
     
 }

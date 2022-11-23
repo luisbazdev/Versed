@@ -22,14 +22,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    /*@GetMapping()
-    public Map<String, Object> findAll(){
-        return this.userService.findAll();
-    }*/
-
     @GetMapping(value = "{id}")
-    public Map<String, Object> findByUserId(@PathVariable String id){
-        return this.userService.findByUserId(id);
+    public Map<String, Object> findById(@PathVariable String id){
+        return this.userService.findById(id);
     }
 
     @PostMapping()

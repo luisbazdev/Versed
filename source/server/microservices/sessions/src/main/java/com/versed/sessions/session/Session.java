@@ -16,7 +16,7 @@ public class Session {
     private Integer id;
     private String studentId;
     private String mentorId;
-    private Integer mentorship_id;
+    private Integer mentorshipId;
     private Date created_at;
     private Date finished_at;
 
@@ -24,20 +24,20 @@ public class Session {
     public Session(
         String studentId, 
         String mentorId,
-        Integer mentorship_id,
+        Integer mentorshipId,
         Date created_at 
     ) {
         this.studentId = studentId;
         this.mentorId = mentorId;
-        this.mentorship_id = mentorship_id;
+        this.mentorshipId = mentorshipId;
         this.created_at = created_at;
     } 
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -57,12 +57,12 @@ public class Session {
         this.mentorId = mentorId;
     }
 
-    public int getMentorship_id() {
-        return this.mentorship_id;
+    public Integer getMentorshipId() {
+        return this.mentorshipId;
     }
 
-    public void setMentorship_id(int mentorship_id) {
-        this.mentorship_id = mentorship_id;
+    public void setMentorshipId(Integer mentorshipId) {
+        this.mentorshipId = mentorshipId;
     }
 
     public Date getCreated_at() {

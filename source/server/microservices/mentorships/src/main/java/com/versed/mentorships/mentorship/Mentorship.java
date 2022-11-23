@@ -1,5 +1,6 @@
 package com.versed.mentorships.mentorship;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ public class Mentorship {
     private String studentId;
     private Integer serviceId;
     private Integer price;
-    private Date expiresAt;
+    private LocalDateTime expiresAt;
     private Date lastSession;
     private Date createdAt;
     private boolean disabled;
@@ -27,7 +28,7 @@ public class Mentorship {
         String studentId,
         Integer serviceId,
         Integer price, 
-        Date expiresAt, 
+        LocalDateTime expiresAt, 
         Date createdAt, 
         boolean disabled) {
         this.mentorId = mentorId;
@@ -35,30 +36,10 @@ public class Mentorship {
         this.serviceId = serviceId;
         this.price = price;
         this.expiresAt = expiresAt;
+        this.lastSession = null;
         this.createdAt = createdAt;
         this.disabled = disabled;
     }
-    public Mentorship(
-        Integer id, 
-        String mentorId,
-        String studentId,
-        Integer serviceId,
-        Integer price, 
-        Date expiresAt, 
-        Date lastSession, 
-        Date createdAt, 
-        boolean disabled) {
-        this.id = id;
-        this.mentorId = mentorId;
-        this.studentId = studentId;
-        this.serviceId = serviceId;
-        this.price = price;
-        this.expiresAt = expiresAt;
-        this.lastSession = lastSession;
-        this.createdAt = createdAt;
-        this.disabled = disabled;
-    }
-
 
     public Integer getId() {
         return this.id;
@@ -100,11 +81,11 @@ public class Mentorship {
         this.price = price;
     }
 
-    public Date getExpiresAt() {
+    public LocalDateTime getExpiresAt() {
         return this.expiresAt;
     }
 
-    public void setExpiresAt(Date expiresAt) {
+    public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
     }
 
@@ -135,5 +116,4 @@ public class Mentorship {
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
     }
-
 }

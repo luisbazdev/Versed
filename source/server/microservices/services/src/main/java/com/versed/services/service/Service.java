@@ -16,9 +16,9 @@ public class Service {
     private String mentorId;
     private Integer price;
     private Integer rating;
-    private Integer maxHoursPerSession;
-    private Integer daysPerWeekAvailable;
-    private Date createdAt;
+    private Integer mentoringWeeks;
+    private Date createdAt;   
+    private String title;
     @Column(length = 50)
     private String signature;
     @Column(length = 2000)
@@ -29,22 +29,18 @@ public class Service {
     public Service(
         String mentorId,
         Integer price,
-        Integer rating,
-        Integer maxHoursPerSession,
-        Integer daysPerWeekAvailable,
-        Date createdAt,
+        Integer mentoringWeeks,
         String signature,
-        String description,
-        Boolean disabled){
+        String description
+	){
         this.mentorId = mentorId;
         this.price = price;
-        this.rating = rating;
-        this.maxHoursPerSession = maxHoursPerSession;
-        this.daysPerWeekAvailable = daysPerWeekAvailable;
-        this.createdAt = createdAt;
+        this.rating = 0;
+        this.mentoringWeeks = mentoringWeeks;
+        this.createdAt = new Date();
         this.signature = signature;
         this.description = description;
-        this.disabled = disabled;
+        this.disabled = false;
     }
 
     public Integer getId() {
@@ -79,20 +75,12 @@ public class Service {
         this.rating = rating;
     }
 
-    public Integer getMaxHoursPerSession() {
-        return this.maxHoursPerSession;
+    public Integer getMentoringWeeks() {
+        return this.mentoringWeeks;
     }
 
-    public void setMaxHoursPerSession(Integer maxHoursPerSession) {
-        this.maxHoursPerSession = maxHoursPerSession;
-    }
-
-    public Integer getDaysPerWeekAvailable() {
-        return this.daysPerWeekAvailable;
-    }
-
-    public void setDaysPerWeekAvailable(Integer daysPerWeekAvailable) {
-        this.daysPerWeekAvailable = daysPerWeekAvailable;
+    public void setMentoringWeeks(Integer mentoringWeeks) {
+        this.mentoringWeeks = mentoringWeeks;
     }
 
     public Date getCreatedAt() {
@@ -101,6 +89,14 @@ public class Service {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getTitle() {
+    	return this.title;
+    }
+
+    public void setTitle(String title) {
+    	this.title = title;
     }
 
     public String getSignature() {

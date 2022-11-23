@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,18 +19,16 @@ import com.versed.sessions.mentorship.MentorshipResponse;
 @Service
 public class SessionService {
     private final SessionRepository repository;
-    private final WebClient userClient;
     private final WebClient mentorshipClient;
 
     @Autowired
     public SessionService(SessionRepository repository, WebClient.Builder builder){
         this.repository = repository;
-        this.userClient = builder.baseUrl("http://localhost:8080/api/users/").build();
-        this.mentorshipClient = builder.baseUrl("http://localhost:8082/api/mentorships/").build();
+        this.mentorshipClient = builder.baseUrl("http://localhost:1235/api/mentorships/").build();
     }
 
     public Map<String, Object> findMySessions(Principal principal){
-        String userId = principal.getName();
+        String userId = principal.getName().replace("auth0|", "");
 
         HashMap<String, Object> hm = new HashMap<String, Object>();
         
@@ -41,29 +41,41 @@ public class SessionService {
         return hm;
     }
 
+    public Map<String, Object> findById(Integer id, Principal principal){
+        String userId = principal.getName().replace("auth0|", "");
+
+        HashMap<String, Object> hm = new HashMap<String, Object>();
+
+        Optional<Session> exists = this.repository.findById(id);
+        
+        if(exists.isPresent()){
+
+            Session session = exists.get();
+
+            if(!session.getMentorId().equals(userId) && !session.getStudentId().equals(userId)){
+                hm.put("message", "You are not allowed to do this");
+                hm.put("success", false);
+                return hm;
+            }
+
+            hm.put("session", session);
+            hm.put("success", true);
+        }
+        else{
+            hm.put("message", "Session does not exist");
+            hm.put("session", null);
+            hm.put("success", false);
+        }
+
+        return hm;
+    }
+
     public Map<String, Object> insert(Principal principal, Session session){
         HashMap<String, Object> hm = new HashMap<String, Object>();
 
-        String userId = principal.getName();
+        String userId = principal.getName().replace("auth0|", "");
 
-        UserResponse userResponse = userClient
-                    .get()
-                    .uri("{id}", userId)
-                    .retrieve()
-                    .bodyToMono(UserResponse.class)
-                    .block();
-
-        User user = userResponse.getUser();
-
-        // check if user is a mentor     
-        if(user == null || user.getOccupation() != "mentor"){
-            hm.put("success", false);
-            hm.put("message", "You are not allowed to do this");
-
-            return hm;
-        }
-
-        Integer mentorshipId = session.getMentorship_id();
+        Integer mentorshipId = session.getMentorshipId();
 
         MentorshipResponse mentorshipResponse = mentorshipClient
         .get()
@@ -74,21 +86,17 @@ public class SessionService {
 
         Mentorship mentorship = mentorshipResponse.getMentorship();
 
-        // check if mentorship exists and the principal is the mentor of it
-        if(mentorship == null || mentorship.getMentorId() != userId){
+        // check if the principal is the mentor of it
+        if(!mentorship.getMentorId().equals(userId)){
+            System.out.println(mentorship.getMentorId());
+            System.out.println(userId);
             hm.put("success", false);
             hm.put("message", "You are not allowed to do this");
             return hm;
         }
-        // check if mentorship has expired or is disabled
-        if(mentorship.getDisabled() == true){
-        //if(mentorship.getExpiresAt() < new Date() || mentorship.getDisabled() == true){
-            hm.put("success", false);
-            hm.put("message", "Mentorship is not available");
-            return hm;
-        }
 
         session.setMentorId(userId);
+        session.setCreated_at(new Date());
         Session _session = this.repository.save(session);
 
         hm.put("success", true);

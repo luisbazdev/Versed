@@ -1,5 +1,6 @@
-package com.versed.services.config;
+package com.versed.config;
 
+import com.versed.security.AudienceValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,12 +15,11 @@ import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.versed.security.AudienceValidator;
-
 @Configuration
 public class SecurityConfig {
+
     @Bean
-    SecurityFilterChain springWebFilterChain(HttpSecurity http) throws Exception{
+    SecurityFilterChain springWebFilterChain(HttpSecurity http) throws Exception {
         return http
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
@@ -27,7 +27,8 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests(c -> c
-                        .anyRequest().authenticated()
+                    .antMatchers(HttpMethod.GET, "/api/services").permitAll()
+                    .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .build();
@@ -47,4 +48,3 @@ public class SecurityConfig {
         return jwtDecoder;
     }
 }
-

@@ -10,41 +10,37 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
 
 import com.versed.users.payment.Method;
+import com.versed.users.profile.Profile;
 
 @Entity
 @Table(name="users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    private String userId;
+    private String id;
     private String occupation;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Method> payment_methods;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    //@JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private Profile profile;
 
     public User() {}
 
-    public User(String userId, String occupation) {
-        this.userId = userId;
+    public User(String id, String occupation) {
+        this.id = id;
         this.occupation = occupation;
     }
 
-    public Integer getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getOccupation() {
@@ -62,6 +58,14 @@ public class User {
 
     public void setPayment_methods(List<Method> payment_methods) {
         this.payment_methods = payment_methods;
+    }
+
+    public Profile getProfile() {
+        return this.profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
 }

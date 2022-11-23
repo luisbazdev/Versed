@@ -29,10 +29,10 @@ public class UserService {
         return hm;
     }
 
-    public Map<String, Object> findByUserId(String id){
+    public Map<String, Object> findById(String id){
         HashMap<String, Object> hm = new HashMap<String, Object>();
 
-        Optional<User> user = this.repository.findByUserId(id);
+        Optional<User> user = this.repository.findById(id);
 
         if(user.isPresent()){
             hm.put("success", true);
@@ -50,7 +50,7 @@ public class UserService {
     public Map<String, Object> insert(User user){
         HashMap<String, Object> hm = new HashMap<String, Object>();
 
-        Optional<User> userExists = this.repository.findByUserId(user.getUserId());
+        Optional<User> userExists = this.repository.findById(user.getId());
 
         if(userExists.isPresent()){
             hm.put("message", "User already exists");

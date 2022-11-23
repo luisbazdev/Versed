@@ -26,10 +26,10 @@ public class MethodService {
     public Map<String, Object> findByUserId(String id){
         HashMap<String, Object> hm = new HashMap<String, Object>();
 
-        Optional<User> user = this.userRepository.findByUserId(id);
+        Optional<User> user = this.userRepository.findById(id);
 
         if(user.isPresent()){
-            Integer userId = user.get().getId();
+            String userId = user.get().getId();
 
         	List<Method> methods = this.methodRepository.findByUserId(userId);
 
@@ -47,18 +47,19 @@ public class MethodService {
         return hm;
     }
 
-    public Map<String, Object> insert(String id, Method method){
+    public Map<String, Object> insert(String id, Method body){
         HashMap<String, Object> hm = new HashMap<String, Object>();
-
-        Optional<User> user = this.userRepository.findByUserId(id);
+        
+	   Optional<User> user = this.userRepository.findById(id);
 
         if(user.isPresent()){
-        	method.setUser(user.get());
-        	Method savedMethod = this.methodRepository.save(method);
+        	body.setUser(user.get());
+
+        	Method method = this.methodRepository.save(body);
 
         	hm.put("message", "Method was created successfully");
         	hm.put("success", true);
-        	hm.put("method", savedMethod);
+        	hm.put("method", method);
 
         	return hm;
         }

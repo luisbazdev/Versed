@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.versed.security.AudienceValidator;
+import com.versed.sessions.security.AudienceValidator;
 
 @Configuration
 public class SecurityConfig {

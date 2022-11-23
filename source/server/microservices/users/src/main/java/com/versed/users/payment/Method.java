@@ -15,7 +15,7 @@ import com.versed.users.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="users_payment_methods", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "gateway" }) })
+@Table(name="user_payment_method", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "gateway" }) })
 public class Method {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -87,6 +87,4 @@ public class Method {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
 }
