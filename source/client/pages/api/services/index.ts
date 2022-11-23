@@ -14,14 +14,14 @@ interface IService{
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
 	let body: IService = req.body
 
-	let { accessToken } = await getAccessToken(req, res)
+		let { accessToken } = await getAccessToken(req, res)
     let config = { headers: { 'Authorization': 'Bearer ' + accessToken } }
 
 	switch(req.method){
 		case "GET": {
 			try {
 				axios.get(`${process.env.VERSED_SERVICES_API_URL}`, config)
-				.then((res) => res.status(200).json({response: res.data}))
+				.then((_res) => res.status(200).json({response: _res.data}))
 			} catch(error: any) {
 				res.status(error.response.status).send(error.response.data)
 			}

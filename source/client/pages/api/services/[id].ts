@@ -13,10 +13,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         case "GET": {
             try {
                 await axios.get(`${process.env.VERSED_SERVICES_API_URL}/${id}`, config)
-                .then((res) => res.status(200).json({response: res.data.service}))
+                .then((_res) => res.status(200).json({service: _res.data.service}))
             } catch(error: any) {
 				res.status(error.response.status).send(error.response.data)
             }
+            break
         }
 
 		default: res.status(405).send("Method not allowed")

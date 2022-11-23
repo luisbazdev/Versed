@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		case "GET": {
 		    try {
 		    	axios.get(`${process.env.VERSED_SESSIONS_API_URL}`, config)
-		    	.then((res) => res.json({response: res.data.sessions}))
+		    	.then((_res) => res.json({response: _res.data.sessions}))
 		    } catch (error) {
 		    	res.json({error})
 		    }

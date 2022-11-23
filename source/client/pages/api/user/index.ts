@@ -22,6 +22,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		}
 
 		case "POST": {
+			if(occupation != "student" && occupation != "mentor")
+				res.status(400).send("Occupation field must be student or mentor")
+
 			try {
 				await axios.post(`${process.env.VERSED_USERS_API_URL}`, { id, occupation })
 				.then((response) => res.status(200).json({data: response.data}))

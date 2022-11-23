@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		case "GET": {
 			try {
 				axios.get(`${process.env.VERSED_MENTORSHIPS_API_URL}/me`, config)
-				.then((res) => res.status(200).json({response: res.data.mentorships}))			
+				.then((_res) => res.status(200).json({mentorships: _res.data.mentorships}))			
 			} catch (error: any) {
 				res.status(error.response.status).send(error.response.data)
 			}
